@@ -8,6 +8,7 @@ Image.allImages = [];
 let image1Index;
 let image2Index;
 let image3Index;
+let noShow = []
 
 let maxAttempts = 10;
 let userAttemptsCounter = 0;
@@ -69,6 +70,12 @@ function render3Images() {
 
 
     };
+    noShow.push(image1Index);
+    noShow.push(image2Index);
+    noShow.push(image3Index);
+    console.log(noShow)
+
+
     image1.src = Image.allImages[image1Index].source;
     Image.allImages[image1Index].timesShown++;
     
@@ -118,3 +125,5 @@ function handleUserClick(event){
         }
     }
 }
+
+
