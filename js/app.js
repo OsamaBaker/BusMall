@@ -86,37 +86,35 @@ function render3Images() {
 // console.log('console', allImages)
 render3Images();
 
-imagesDiv.addEventListener('click', handleUserClick)
+imagesDiv.addEventListener('click', handleUserClick);
 
 function handleUserClick(event){
     // console.log(event.target.id)
-    
-    if(userAttemptsCounter <= maxAttempts){
+    userAttemptsCounter++;
+    render3Images();
 
-        if (event.target.id === 'image1'){
+    if(userAttemptsCounter <= maxAttempts){
+        if(event.target.id === 'image1'){
             Image.allImages[image1Index].clicked++;
-        }else if (event.target.id === 'image2'){
+        } else if(event.target.id === 'image2'){
             Image.allImages[image2Index].clicked++;
-        }else{
+        } else if(event.target.id === 'image3'){
             Image.allImages[image3Index].clicked++;
         }
-        // console.log(Image.allImages)
-        }
-
-    else{
+        
+    } else if(userAttemptsCounter > maxAttempts){
         let list = document.getElementById('results-list');
-
+        
         let imageResult;
 
         for (let i = 0; i < Image.allImages.length; i++) {
             imageResult = document.createElement('li');
             list.appendChild(imageResult);
 
-            imageResult.textContent = `${Image.allImages[i].name} has ${Image.allImages[i].clicked} clicks`;
+            imageResult.textContent=`${Image.allImages[i].name} has ${Image.allImages[i].clicked} clicks and was seen ${Image.allImages[i].timesShown} times`
             
-            
+            imagesDiv.removeEventListener('click', handleUserClick);
+            // console.log(imageResult)
         }
     }
-    render3Images();
 }
-
