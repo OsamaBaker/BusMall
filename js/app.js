@@ -28,12 +28,14 @@ function Image(name, source) {
 
     namesArr.push(this.name);
 
+
     
 }
 
 function saveChanges(){
     let arrayString = JSON.stringify(Image.allImages);
     localStorage.setItem('product', arrayString)
+
 }
 
 
@@ -118,7 +120,11 @@ function handleUserClick(event) {
 
     if (userAttemptsCounter <= maxAttempts) {
         if (event.target.id === 'image1') {
+
             Image.allImages[i].votes++;
+
+            Image.allImages[image1Index].votes++;
+
         } else if (event.target.id === 'image2') {
             Image.allImages[image2Index].votes++;
         } else if (event.target.id === 'image3') {
@@ -202,7 +208,10 @@ var myChart = new Chart(ctx, {
     }
 });
 
+
 }
 
 
 
+
+}
