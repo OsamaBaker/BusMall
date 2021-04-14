@@ -121,8 +121,6 @@ function handleUserClick(event) {
     if (userAttemptsCounter <= maxAttempts) {
         if (event.target.id === 'image1') {
 
-            Image.allImages[i].votes++;
-
             Image.allImages[image1Index].votes++;
 
         } else if (event.target.id === 'image2') {
@@ -214,4 +212,4 @@ var myChart = new Chart(ctx, {
 
 
 
-}
+
