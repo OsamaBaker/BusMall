@@ -8,7 +8,10 @@ Image.allImages = [];
 let image1Index;
 let image2Index;
 let image3Index;
-let noShow = []
+let noDuplicate = [];
+let namesArr = [];
+let votesArr = [];
+let shownArr = [];
 
 let maxAttempts = 25;
 let userAttemptsCounter = 0;
@@ -18,10 +21,12 @@ let userAttemptsCounter = 0;
 function Image(name, source) {
     this.name = name;
     this.source = source;
-    this.timesShown = 0;
-    this.clicked = 0;
+    this.shown = 0;
+    this.votes = 0;
 
     Image.allImages.push(this);
+
+    namesArr.push(this.name);
 }
 
 // Instances
@@ -63,27 +68,30 @@ function render3Images() {
     image3Index = generateRandomIndex();
     image3.src = Image.allImages[image3Index].source;
 
-    while (image1Index === image2Index || image1Index === image3Index || image2Index === image3Index) {
+    while (image1Index === image2Index || image1Index === image3Index || image2Index === image3Index || noDuplicate.includes(image1Index) || noDuplicate.includes(image2Index) || noDuplicate.includes(image3Index)) {
         image1Index = generateRandomIndex();
         image2Index = generateRandomIndex();
         image3Index = generateRandomIndex();
 
 
-    };
-    noShow.push(image1Index);
-    noShow.push(image2Index);
-    noShow.push(image3Index);
-    console.log(noShow)
+    }
+    // noDuplicate.push(image1Index);
+    // noDuplicate.push(image2Index);
+    // noDuplicate.push(image3Index);
+
+    // console.log(image1Index);
+    // console.log(image2Index);
+    // console.log(image3Index);
 
 
     image1.src = Image.allImages[image1Index].source;
-    Image.allImages[image1Index].timesShown++;
+    Image.allImages[image1Index].shown++;
 
     image2.src = Image.allImages[image2Index].source;
-    Image.allImages[image2Index].timesShown++;
+    Image.allImages[image2Index].shown++;
 
     image3.src = Image.allImages[image3Index].source;
-    Image.allImages[image3Index].timesShown++;
+    Image.allImages[image3Index].shown++;
 
     // console.log(Image.allImages[image1Index].name,Image.allImages[image1Index].timesShown)
 
@@ -102,11 +110,11 @@ function handleUserClick(event) {
 
     if (userAttemptsCounter <= maxAttempts) {
         if (event.target.id === 'image1') {
-            Image.allImages[image1Index].clicked++;
+            Image.allImages[image1Index].votes++;
         } else if (event.target.id === 'image2') {
-            Image.allImages[image2Index].clicked++;
+            Image.allImages[image2Index].votes++;
         } else if (event.target.id === 'image3') {
-            Image.allImages[image3Index].clicked++;
+            Image.allImages[image3Index].votes++;
         }
 
     } else if (userAttemptsCounter > maxAttempts) {
@@ -127,18 +135,62 @@ function handleUserClick(event) {
                 imageResult = document.createElement('li');
                 list.appendChild(imageResult);
     
-                imageResult.textContent = `${Image.allImages[i].name} has ${Image.allImages[i].clicked} clicks and was seen ${Image.allImages[i].timesShown} times`
+                imageResult.textContent = `${Image.allImages[i].name} has ${Image.allImages[i].votes} clicks and was seen ${Image.allImages[i].shown} times`
     
             }
             button.removeEventListener('click', showResults);
             
             // console.log(imageResult)
         }
-        
+
+        for (let i = 0; i < Image.allImages.length; i++) {
+            votesArr.push(Image.allImages[i].votes);
+            shownArr.push(Image.allImages[i].shown);
+            
+          }
+        // console.log(votesArr)
+        chart();
         imagesDiv.removeEventListener('click', handleUserClick);
         // button.removeEventListener('click', showResults);
     }
     // button.removeEventListener('click', showResults);
 }
 
+function chart(){
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: namesArr,
+        datasets: [{
+            label: 'Product Votes',
+            data: votesArr,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
 
+}
