@@ -13,7 +13,7 @@ let namesArr = [];
 let votesArr = [];
 let shownArr = [];
 
-let maxAttempts = 25;
+let maxAttempts = 5;
 let userAttemptsCounter = 0;
 // let timesShown = 0;
 // let clicked = 0;
@@ -27,7 +27,17 @@ function Image(name, source) {
     Image.allImages.push(this);
 
     namesArr.push(this.name);
+
+
+    
 }
+
+function saveChanges(){
+    let arrayString = JSON.stringify(Image.allImages);
+    localStorage.setItem('product', arrayString)
+
+}
+
 
 // Instances
 new Image('bag', '../img/bag.jpg');
@@ -110,7 +120,11 @@ function handleUserClick(event) {
 
     if (userAttemptsCounter <= maxAttempts) {
         if (event.target.id === 'image1') {
+
+            Image.allImages[i].votes++;
+
             Image.allImages[image1Index].votes++;
+
         } else if (event.target.id === 'image2') {
             Image.allImages[image2Index].votes++;
         } else if (event.target.id === 'image3') {
@@ -151,6 +165,7 @@ function handleUserClick(event) {
         // console.log(votesArr)
         chart();
         imagesDiv.removeEventListener('click', handleUserClick);
+        saveChanges();
         // button.removeEventListener('click', showResults);
     }
     // button.removeEventListener('click', showResults);
@@ -192,5 +207,11 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
+
+}
+
+
+
 
 }
