@@ -13,7 +13,7 @@ let namesArr = [];
 let votesArr = [];
 let shownArr = [];
 
-let maxAttempts = 5;
+let maxAttempts = 25;
 let userAttemptsCounter = 0;
 // let timesShown = 0;
 // let clicked = 0;
@@ -37,6 +37,22 @@ function saveChanges(){
     localStorage.setItem('product', arrayString)
 
 }
+
+function getProducts() {
+
+    // get the data from the local storage
+    let data =localStorage.getItem('product');
+  
+    // convert data back into a normal array of objects
+    let arrayString=JSON.parse(data);
+  
+  
+    // if the first time we visit the page, there will not be an array of objects inside the local storage so we should handle it here:
+    if (arrayString !==null) {
+      Image.allImages=coffeeData;
+    }
+}
+ 
 
 
 // Instances
@@ -164,6 +180,7 @@ function handleUserClick(event) {
         chart();
         imagesDiv.removeEventListener('click', handleUserClick);
         saveChanges();
+        getProducts();
         // button.removeEventListener('click', showResults);
     }
     // button.removeEventListener('click', showResults);
